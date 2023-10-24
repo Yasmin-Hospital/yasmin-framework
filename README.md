@@ -25,7 +25,7 @@ require 'vendor/autoload.php';
 class HomeController {
 
     function index() {
-        return '<h1>Hello World</h1>';
+        return response('<h1>Hello World</h1>');
     }
 
 }
