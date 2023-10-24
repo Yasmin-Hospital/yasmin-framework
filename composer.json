@@ -1,0 +1,18 @@
+{
+    "name": "yasmin/framework",
+    "autoload": {
+        "files": [
+            "src/Helpers.php"
+        ],
+        "psr-4": {
+            "Yasmin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Yasmin",
+            "email": "info@yasminhospital.com"
+        }
+    ],
+    "require": {}
+}
