@@ -1,5 +1,14 @@
 {
-    "name": "yasmin/framework",
+    "name": "mochrira/selvi-framework",
+    "description": "Super fast PHP Framework for building API",
+    "type": "library",
+    "authors": [
+        {
+            "name": "mochrira",
+            "email": "mochrira@gmail.com"
+        }
+    ],
+    "license": "MIT",
     "autoload": {
         "files": [
             "src/Helpers.php"
@@ -7,12 +16,5 @@
         "psr-4": {
             "Yasmin\\": "src/"
         }
-    },
-    "authors": [
-        {
-            "name": "Yasmin",
-            "email": "info@yasminhospital.com"
-        }
-    ],
-    "require": {}
+    }
 }

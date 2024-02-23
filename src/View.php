@@ -2,10 +2,9 @@
 
 namespace Yasmin;
 
-use Yasmin\Base;
 use Yasmin\Response;
 
-class View extends Base {
+class View {
 
     static $paths = [];
 

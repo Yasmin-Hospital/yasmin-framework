@@ -4,29 +4,27 @@ namespace Yasmin;
 
 class Uri {
 
-    private static $baseUrl;
-
-    public static function setBaseUrl($baseUrl) {
-        if(substr($baseUrl, -1) == '/') {
-            $baseUrl = substr($baseUrl, 0, strlen($baseUrl) - 1);
-        }
-        self::$baseUrl = $baseUrl;
-    }
-
-    function baseUrl() {
-        return self::$baseUrl.'/';
-    }
-
+    private $baseUrl;
     private $currentUrl;
-    private $segments;
+
+    private $uriString;
+    private $uriSegments;
 
     function __construct() {
-        $parts = explode('?', $_SERVER['REQUEST_URI']);
-        $requestUri = $parts[0];
-        $this->currentUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://').
-            $_SERVER['HTTP_HOST'].$requestUri;
-        $uri = preg_replace('/'.preg_quote(self::$baseUrl, '/').'/', '', $this->currentUrl);
-        $this->segments = $this->parseUri($uri);
+        $baseUrl = sprintf("%s://%s",
+            isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+            $_SERVER['SERVER_NAME'] . ( $_SERVER['SERVER_PORT'] != '80' ? ':' . $_SERVER['SERVER_PORT'] : '' )
+        );
+        $this->currentUrl = $baseUrl . $_SERVER['REQUEST_URI'];
+
+        $subDir = preg_replace('/'.preg_quote($_SERVER['DOCUMENT_ROOT'], '/').'/', '', dirname($_SERVER['SCRIPT_FILENAME']), 1);
+        $this->baseUrl = $baseUrl . $subDir;
+
+        $uriString = preg_replace('/'.preg_quote($subDir, '/').'/', '', $_SERVER['REQUEST_URI'], 1);
+        $parts = explode('?', $uriString);
+
+        $this->uriString = $this->validateUri($parts[0]);
+        $this->uriSegments = $this->parseUri($this->uriString);
     }
 
     private function parseUri($uri) {
@@ -42,6 +40,10 @@ class Uri {
         return '/'.implode('/', $segments);
     }
 
+    function baseUrl() {
+        return $this->baseUrl;
+    }
+
     function currentUrl() {
         return $this->currentUrl;
     }
@@ -51,15 +53,15 @@ class Uri {
     }
 
     function string() {
-        return '/'.implode('/', $this->segments);
+        return '/'.implode('/', $this->uriSegments);
     }
 
     function segments() {
-        return $this->segments;
+        return $this->uriSegments;
     }
 
     function segment($index) {
-        return $this->segments[$index - 1] ?? null;
+        return $this->uriSegments[$index - 1] ?? null;
     }
 
 }

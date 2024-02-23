@@ -1,36 +1,74 @@
-# Yasmin Framework
+# Selvi Framework
+⚡ Super fast PHP Framework for building API
 
-## Installation
+## Quick Start
 
-```
-composer require yasmin/framework
-```
-
-## Create .htaccess file
+1. Get this framework via composer on your project directory (inside www folder if you are using Apache)
 
 ```
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ index.php
+$ composer require mochrira/selvi-framework
 ```
 
-## Create index.php file
+2. Create `app/Controllers` folder inside your project directory
+3. Create file `HomeController.php` inside `app/Controllers` with this content
 
-```php
+```
 <?php 
 
-require 'vendor/autoload.php';
+namespace App\Controllers;
+use Yasmin\Controller;
 
-class HomeController {
+class HomeController extends Controller {
+
+    function __construct() {
+        parent::__construct();
+    }
 
     function index() {
-        return response('<h1>Hello World</h1>');
+        return response('Welcome to Selvi Framework');
     }
 
 }
 
-Yasmin\Uri::setBaseUrl('<your-app-base-url>');
-Yasmin\Route::bind('/', 'HomeController@index');
+```
+
+4. Create index.php
+
+```
+<?php 
+require('vendor/autoload.php');
+
+use Yasmin\Route;
+Route::get('/', 'HomeController@index');
+
 Yasmin\Framework::run();
 ```
+
+5. Create `.htaccess` file
+
+```
+Options +FollowSymLinks
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L]
+```
+
+
+6. Edit your composer.json
+
+```
+{
+    ...
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+    ...
+}
+```
+
+7. Run `composer update` to update your composer autoload
+8. Done. Open `http://localhost/your-project` on your browser to test it

@@ -1,0 +1,10 @@
+{
+    "name": "mochrira/selvi-framework-examples",
+    "autoload": {
+        "psr-4": {
+            "Yasmin\\": "../src",
+            "App\\": "./app"
+        }
+    },
+    "require": {}
+}
