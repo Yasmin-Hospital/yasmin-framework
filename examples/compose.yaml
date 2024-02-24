@@ -3,20 +3,9 @@ name: yasmin_framework
 services:
   backend: 
     container_name: yasmin_framework_container
-    image: mochrira/dev:latest
+    image: rsyasmin/dev:latest
     volumes:
       - ./src:/workspace/www
+      - ../src:/workspace/src
     ports:
       - 8091:80
-    networks:
-      - environment
-      - database
-
-networks:
-  environment:
-    name: environment
-    external: true
-
-  database:
-    name: database
-    external: true
