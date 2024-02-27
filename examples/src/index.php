@@ -1,32 +1,15 @@
 <?php 
+use Yasmin\Framework;
 
 require 'vendor/autoload.php';
+define('BASEPATH', __DIR__);
 
-use Yasmin\Response;
-use Yasmin\Route;
-use Yasmin\Framework;
-use Yasmin\Database\Manager;
+date_default_timezone_set('Asia/Jakarta');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, authorization");
+header("Access-Control-Allow-Methods: OPTIONS, GET, POST, PATCH, DELETE");
 
-Manager::add('main', [
-    'driver' => 'sqlsrv',
-    'host' => 'WAJEK-LAPTOP',
-    'username' => 'root',
-    'password' => 'RDF?jq8eec',
-    'database' => 'ifrs',
-    'TrustServerCertificate' => 1
-]);
-
-Route::get('/', function() { 
-    $db = Manager::get('main');
-    $db->connect();
-    $result = $db
-        ->select(['idPengguna', 'username'])
-        ->get('pengguna')->result();
-    return new Response(json_encode($result));
-});
-
-Route::get('/profil', function() { 
-    return new Response('Hello, Profil !');
-});
+require BASEPATH.'/app/Config/routes.php';
+require BASEPATH.'/app/Config/database.php';
 
 Framework::run();
