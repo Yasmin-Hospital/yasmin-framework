@@ -1,11 +1,11 @@
 {
-    "name": "mochrira/selvi-framework",
+    "name": "rsyasmin/yasmin-framework",
     "description": "Super fast PHP Framework for building API",
     "type": "library",
     "authors": [
         {
-            "name": "mochrira",
-            "email": "mochrira@gmail.com"
+            "name": "rsyasmin",
+            "email": "simrs.rsyasmin@gmail.com"
         }
     ],
     "license": "MIT",

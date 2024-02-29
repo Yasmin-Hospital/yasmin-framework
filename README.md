@@ -1,4 +1,4 @@
-# Selvi Framework
+# Yasmin Framework
 ⚡ Super fast PHP Framework for building API
 
 ## Quick Start
@@ -6,7 +6,7 @@
 1. Get this framework via composer on your project directory (inside www folder if you are using Apache)
 
 ```
-$ composer require mochrira/selvi-framework
+$ composer require rsyasmin/yasmin-framework
 ```
 
 2. Create `app/Controllers` folder inside your project directory
@@ -25,7 +25,7 @@ class HomeController extends Controller {
     }
 
     function index() {
-        return response('Welcome to Selvi Framework');
+        return response('Welcome to Yasmin Framework');
     }
 
 }
