@@ -1,5 +1,5 @@
 {
-    "name": "rsyasmin/yasmin-framework",
+    "name": "yasmin/framework",
     "description": "Super fast PHP Framework for building API",
     "type": "library",
     "authors": [
