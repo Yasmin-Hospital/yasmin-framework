@@ -2,6 +2,8 @@
 
 namespace Yasmin;
 
+use Yasmin\Exception;
+
 class Route {
 
     private static $routes = [
@@ -43,7 +45,7 @@ class Route {
                 }
             }
         }
-        return null;
+        throw new Exception("Route '{$current_uri}' not found", 'route/not-found', 404);
     }
 
 }

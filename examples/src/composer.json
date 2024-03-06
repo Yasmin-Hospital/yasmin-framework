@@ -4,7 +4,10 @@
         "psr-4": {
             "Yasmin\\": "../src",
             "App\\": "./app"
-        }
+        },
+        "files": [
+            "../src/Helpers.php"
+        ]
     },
     "require": {}
 }
