@@ -205,6 +205,7 @@ class SQLSrvSchema implements Schema {
 
         $sql .= implode(", ", $sqlCols);
         $sql .= ");";
+        $this->reset();
         return $this->query($sql);
     }
 
@@ -212,6 +213,7 @@ class SQLSrvSchema implements Schema {
     {
         $sql = "IF EXISTS (SELECT * FROM sysobjects WHERE ID = object_id(N'{$table}') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)\n";
         $sql .= "DROP TABLE {$table};";
+        $this->reset();
         return $this->query($sql);
     }
 
@@ -226,7 +228,32 @@ class SQLSrvSchema implements Schema {
         $col_str = implode(', ', $columns);
         $val_str = implode(', ', $values);
         $sql = "INSERT INTO {$table} ({$col_str}) VALUES ({$val_str})";
+        $this->reset();
         return $this->query($sql);
+    }
+
+    function update(string $tbl, array $data): Result | bool {
+        $columns = [];
+        foreach($data as $c => $v){
+            $columns[] = "{$c} = " . $this->prepareValue($v);
+        }
+        $col_str = implode(", ", $columns);
+
+        $where = $this->_where;
+        if(strlen($where) > 0) $where = " ".$where;
+
+        $sql = " UPDATE {$tbl} SET {$col_str}{$where}";
+        $this->reset();
+        return $this->query($sql);
+    }
+
+    function delete(string $tbl): Result | bool {
+        $where = $this->_where;
+        if(strlen($where) > 0) $where = " ".$where;
+
+        $sql = "DELETE FROM {$tbl}{$where}";
+        $this->reset();
+        return $this->query($sql); 
     }
 
 }
