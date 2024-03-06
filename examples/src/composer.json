@@ -1,5 +1,5 @@
 {
-    "name": "mochrira/selvi-framework-examples",
+    "name": "rsyasmin/yasmin-framework-examples",
     "autoload": {
         "psr-4": {
             "Yasmin\\": "../src",
