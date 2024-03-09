@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Yasmin\Model;
 use Yasmin\Database\Manager;
-use Yasmin\Response;
 
 class Ruang extends Model {
 

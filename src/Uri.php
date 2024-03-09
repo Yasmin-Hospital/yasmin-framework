@@ -4,6 +4,11 @@ namespace Yasmin;
 
 class Uri {
 
+    // private static $_baseUrl = null;
+    // public static function setBaseUrl($baseUrl) {
+    //     self::$_baseUrl = $baseUrl;
+    // }
+
     private $baseUrl;
     private $currentUrl;
 
@@ -15,9 +20,9 @@ class Uri {
             isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
             $_SERVER['SERVER_NAME'] . ( $_SERVER['SERVER_PORT'] != '80' ? ':' . $_SERVER['SERVER_PORT'] : '' )
         );
-        $this->currentUrl = $baseUrl . $_SERVER['REQUEST_URI'];
 
-        $subDir = preg_replace('/'.preg_quote($_SERVER['DOCUMENT_ROOT'], '/').'/', '', dirname($_SERVER['SCRIPT_FILENAME']), 1);
+        $this->currentUrl = $baseUrl . $_SERVER['REQUEST_URI'];
+        $subDir = dirname($_SERVER['SCRIPT_NAME']);
         $this->baseUrl = $baseUrl . $subDir;
 
         $uriString = preg_replace('/'.preg_quote($subDir, '/').'/', '', $_SERVER['REQUEST_URI'], 1);
