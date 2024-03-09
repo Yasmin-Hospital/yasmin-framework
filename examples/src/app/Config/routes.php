@@ -7,13 +7,13 @@ use Yasmin\Exception;
 
 class MainController {
 
-    function index($idPoliklinik) {
-        $db = Manager::get('main');
-        $update = $db->where([
-            ['idPoliklinik', $idPoliklinik]
-        ])->update('poliklinik', [
-            'nmPoliklinik' => 'Bedah'
-        ]);
+    function index() {
+        // $db = Manager::get('main');
+        // $update = $db->where([
+        //     ['idPoliklinik', $idPoliklinik]
+        // ])->update('poliklinik', [
+        //     'nmPoliklinik' => 'Bedah'
+        // ]);
         return new Response('Hello there, it works !');
     }
 
@@ -31,3 +31,4 @@ class MainController {
 
 Route::get('/ruang', 'MainController@getRuang');
 Route::get('/{idPoliklinik}', 'MainController@index');
+Route::get('/', 'MainController@index');

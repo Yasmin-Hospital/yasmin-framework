@@ -13,7 +13,7 @@ interface Schema {
     public function get(string $tbl): Result;
     public function select(string|array $cols): self;
     public function where(string|array $where): self;
-    public function order(string|array $cols, ?string $param = "ASC"): self;
+    public function order(string|array $order, ?string $direction): self;
     public function limit (int $limit): self;
     public function offset(int $offset): self;
     public function insert(string $tbl, array $data): Result | bool;
@@ -23,6 +23,7 @@ interface Schema {
     public function error(): mixed;
     public function update(string $tbl, array $data): Result | bool;
     public function delete(string $tbl): Result | bool;
+    
     // public function join(string $tbl, string $cond): self;
     // public function innerJoin(string $tbl, string $cond): self;
     // public function leftJoin(string $tbl, string $cond): self;

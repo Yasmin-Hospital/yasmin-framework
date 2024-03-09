@@ -140,22 +140,36 @@ class SQLSrvSchema implements Schema {
 
     private ?string $_order = "";
 
-    function order(string|array $cols, ?string $param = "ASC"): Schema
+    function order(string|array $order, ?string $direction): Schema
     {
         $this->_order .= strlen($this->_order) > 0 ? ', ' : 'ORDER BY ';
-        if(is_array($cols)) {
-            if(array_is_list($cols)) {
-                $this->_order .= implode(', ', $cols, array_keys($cols));
+        if(is_array($order)) {
+            if(array_is_list($order)) {
+                $this->_order .= implode(', ', $order, array_keys($order));
             } else {
-                $this->_order .= implode(', ', array_map(function ($field) use ($cols) {
-                    return $field.' '.$cols[$field];
-                }, array_keys($cols)));
+                $this->_order .= implode(', ', array_map(function ($field) use ($order) {
+                    return $field.' '.$order[$field];
+                }, array_keys($order)));
             }
         }
-        if(is_string($cols)) {
-            $this->_order .= $cols;
+
+        if(is_string($order)) {
+            if($direction !== null) {
+                $this->_order .= $order. ' '.$direction;
+            } else {
+                $this->_order .= $order;
+            }
         }
+
         return $this;
+    }
+
+    private function reset() {
+        $this->_select = '';
+        $this->_where = '';
+        $this->_order = '';
+        $this->_offset = "OFFSET 0 ROWS";
+        $this->_limit = '';
     }
 
     function getSql(string $table): string {
@@ -177,14 +191,6 @@ class SQLSrvSchema implements Schema {
         $sql = "{$select}{$from}{$where}{$order}";
         $this->reset();
         return $sql;
-    }
-
-    private function reset() {
-        $this->_select = '';
-        $this->_where = '';
-        $this->_order = '';
-        $this->_offset = "OFFSET 0 ROWS";
-        $this->_limit = '';
     }
 
     function get(string $table): Result
@@ -242,7 +248,7 @@ class SQLSrvSchema implements Schema {
         $where = $this->_where;
         if(strlen($where) > 0) $where = " ".$where;
 
-        $sql = " UPDATE {$tbl} SET {$col_str}{$where}";
+        $sql = "UPDATE {$tbl} SET {$col_str}{$where}";
         $this->reset();
         return $this->query($sql);
     }
