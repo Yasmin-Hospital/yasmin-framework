@@ -140,7 +140,7 @@ class SQLSrvSchema implements Schema {
 
     private ?string $_order = "";
 
-    function order(string|array $order, ?string $direction): Schema
+    function order(string|array $order, ?string $direction = null): Schema
     {
         $this->_order .= strlen($this->_order) > 0 ? ', ' : 'ORDER BY ';
         if(is_array($order)) {
