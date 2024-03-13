@@ -27,8 +27,18 @@ class MainController {
         return new Response(json_encode(['data' => $ruang->result()], JSON_PRETTY_PRINT));
     }
 
-}
+    function allroom(){
+        $db = Manager::get('main');
+        $allroom = $db->query('select * from masteruser ');
 
-Route::get('/ruang', 'MainController@getRuang');
-Route::get('/{idPoliklinik}', 'MainController@index');
-Route::get('/', 'MainController@index');
+
+        return new Response(json_encode(['data' => $allroom->result()], JSON_PRETTY_PRINT));
+
+    }
+
+}
+Route::get('/allroom', 'MainController@allroom');
+
+//Route::get('/ruang', 'MainController@getRuang');
+// Route::get('/{idPoliklinik}', 'MainController@index');
+// Route::get('/', 'MainController@index');
