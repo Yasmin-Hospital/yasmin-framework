@@ -39,10 +39,8 @@ class MainController {
 
 }
 Route::get('/allroom', 'MainController@allroom');
-Route::get('/ruang', 'MainController@getRuang');
-// Route::get('/{idPoliklinik}', 'MainController@index');
+Route::get('/ruang', '\\App\\Controllers\\HomeController@getRuang');
 Route::get('/', 'MainController@index');
-
-//Route::get('/ruang', 'MainController@getRuang');
+// Route::get('/{idPoliklinik}', 'MainController@index');
 // Route::get('/{idPoliklinik}', 'MainController@index');
 // Route::get('/', 'MainController@index');

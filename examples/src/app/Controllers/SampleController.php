@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\Ruang;
+use App\Models\RuangModel;
 use Yasmin\Exception;
 use Yasmin\Response;
 use Yasmin\Uri;
@@ -13,20 +13,18 @@ class SampleController extends Controller {
 
     function __construct(
         private Uri $uri,
-        private Ruang $ruang
+        private RuangModel $ruangModel
     ) { }
 
     function index() {
-        return new Response(json_encode($this->ruang->count(), JSON_PRETTY_PRINT));
+        return new Response(json_encode($this->ruangModel->count(), JSON_PRETTY_PRINT));
     }
 
     function result() {
-        return new Response(json_encode($this->ruang->result(), JSON_PRETTY_PRINT));
+        return new Response(json_encode($this->ruangModel->result(), JSON_PRETTY_PRINT));
     }
     
     function getHeader(Request $request) {
-        var_dump($request->header());
-        // throw new Exception('Exception works', 'sample/exception-test', 403);
-        // return new Response(json_encode($request->header(), JSON_PRETTY_PRINT));
+        return new Response(json_encode($request->header(), JSON_PRETTY_PRINT));
     }
 }
