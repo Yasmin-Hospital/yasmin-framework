@@ -40,6 +40,7 @@ class MainController {
 }
 Route::get('/allroom', 'MainController@allroom');
 Route::get('/ruang', '\\App\\Controllers\\HomeController@getRuang');
+Route::get('/kelurahan', '\\App\\Controllers\\HomeController@getKelurahan');
 Route::get('/', 'MainController@index');
 // Route::get('/{idPoliklinik}', 'MainController@index');
 // Route::get('/{idPoliklinik}', 'MainController@index');
