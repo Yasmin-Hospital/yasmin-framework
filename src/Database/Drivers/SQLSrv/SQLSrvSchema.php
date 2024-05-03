@@ -164,15 +164,15 @@ class SQLSrvSchema implements Schema {
         return $this;
     }
 
-    private ?string $_group = "";
+    // private ?string $_group = "";
 
-    function groupBy(mixed $group): Schema {
-        $str = "";
-        if(is_string($group)) $str = $group;
-        if(is_array($group)) $str = implode(", ", $group);
-        $this->_group .= (strlen($this->_group) > 0) ? ", ".$str : "GROUP BY ".$str; 
-        return $this;   
-    }
+    // function groupBy(mixed $group): Schema {
+    //     $str = "";
+    //     if(is_string($group)) $str = $group;
+    //     if(is_array($group)) $str = implode(", ", $group);
+    //     $this->_group .= (strlen($this->_group) > 0) ? ", ".$str : "GROUP BY ".$str; 
+    //     return $this;   
+    // }
 
     private ?string $_join = "";
 
@@ -310,22 +310,22 @@ class SQLSrvSchema implements Schema {
         return $this;
     }
 
-    private ?string $_join = "";
+    // private ?string $_join = "";
 
-    function join(string $tbl, string $cond): Schema {
-        $this->_join .= (strlen($this->_join) > 0 ? " " : "")."JOIN {$tbl} ON {$cond}";
-        return $this;
-    }
+    // function join(string $tbl, string $cond): Schema {
+    //     $this->_join .= (strlen($this->_join) > 0 ? " " : "")."JOIN {$tbl} ON {$cond}";
+    //     return $this;
+    // }
 
-    function innerJoin(string $tbl, string $cond): Schema {
-        $this->_join .= (strlen($this->_join) > 0 ? " " : "")."INNER JOIN {$tbl} ON {$cond}";
-        return $this;
-    }
+    // function innerJoin(string $tbl, string $cond): Schema {
+    //     $this->_join .= (strlen($this->_join) > 0 ? " " : "")."INNER JOIN {$tbl} ON {$cond}";
+    //     return $this;
+    // }
 
-    function leftJoin(string $tbl, string $cond): Schema {
-        $this->_join .= (strlen($this->_join) > 0 ? " " : "")."LEFT JOIN {$tbl} ON {$cond}";
-        return $this;
-    }
+    // function leftJoin(string $tbl, string $cond): Schema {
+    //     $this->_join .= (strlen($this->_join) > 0 ? " " : "")."LEFT JOIN {$tbl} ON {$cond}";
+    //     return $this;
+    // }
 
     function startTransaction(): bool {
         return $this->query("BEGIN TRANSACTION");
