@@ -4,13 +4,28 @@ info:
   version: '1.0'
 
 servers:
-  - url: http://drop_site_link_here/
+  - url: http://localhost:8091/
     description: Development
 
 tags:
-  - name: Index
-    description: Index Awal API
+  - name: Kontak
+    description: Manajemen data kontak
+  - name: Grup
+    description: Manajemen data grup
 
 paths:
-  /index:
-    $ref: './paths/index.yaml'
+  /kontak:
+    get:
+      summary: Mengambil data kontak
+      tags: [Kontak]
+      responses:
+        '200':
+          description: Semua data kontak
+
+  /grup:
+    get:
+      summary: Mengambil data grup
+      tags: [Grup]
+      responses:
+        '200':
+          description: Semua data grup

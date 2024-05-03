@@ -215,9 +215,6 @@ class SQLSrvSchema implements Schema {
         $where = $this->_where;
         if(strlen($where) > 0) $where = " ".$where;
 
-        $group = $this->_group;
-        if(strlen($group) > 0) $group = " ".$group;
-
         $order = $this->_order;
         if(strlen($order) > 0) {
             $order = " ".$order;
@@ -226,8 +223,10 @@ class SQLSrvSchema implements Schema {
         }
 
         $join = $this->_join;
-        $group = $this->_groupBy;
-        return implode(" ", [$select, $from, $join, $where, $group, $order]);
+        $group = $this->_group;
+        $query = implode(" ", [$select, $from, $join, $where, $group, $order]);
+        $this->reset();
+        return $query;
     }
 
     function get(string $table): Result
@@ -300,13 +299,13 @@ class SQLSrvSchema implements Schema {
         return $this->query($sql); 
     }
 
-    private ?string $_groupBy = "";
+    private ?string $_group = "";
 
     function groupBy(mixed $group): Schema {
         $str = "GROUP BY ";
         if(is_string($group)) $str .= $group;
         if(is_array($group)) $str .= implode(",", $group);
-        (strlen($this->_groupBy) > 0) ? $this->_groupBy .= $str : $this->_groupBy = $str;
+        (strlen($this->_group) > 0) ? $this->_group .= $str : $this->_group = $str;
         return $this;
     }
 
