@@ -212,10 +212,6 @@ class SQLSrvSchema implements Schema {
         if(strlen($this->_select) > 0) $select = "SELECT {$this->_select}";
 
         $from = " FROM {$table}";
-
-        $join = $this->_join;
-        if(strlen($join) > 0) $join = " ".$join;
-
         $where = $this->_where;
         if(strlen($where) > 0) $where = " ".$where;
 
@@ -229,15 +225,16 @@ class SQLSrvSchema implements Schema {
             if(strlen($this->_limit) > 0) $order .= " ".$this->_limit;
         }
 
-        $sql = "{$select}{$from}{$join}{$where}{$group}{$order}";
-        $this->reset();
-        return $sql;
+        $join = $this->_join;
+        $group = $this->_groupBy;
+        return implode(" ", [$select, $from, $join, $where, $group, $order]);
     }
 
     function get(string $table): Result
     {
-        $res = sqlsrv_query($this->instance, $this->getSql($table), params: [], options: ['Scrollable' => SQLSRV_CURSOR_CLIENT_BUFFERED]);
-        return new SQLSrvResult($res);
+        // $res = sqlsrv_query($this->instance, $this->getSql($table), params: [], options: ['Scrollable' => SQLSRV_CURSOR_CLIENT_BUFFERED]);
+        // return new SQLSrvResult($res);
+        return $this->query($this->getSql($table));
     }
 
     public function create(string $table, array $columns): Result | bool{
@@ -301,6 +298,137 @@ class SQLSrvSchema implements Schema {
         $sql = "DELETE FROM {$tbl}{$where}";
         $this->reset();
         return $this->query($sql); 
+    }
+
+    private ?string $_groupBy = "";
+
+    function groupBy(mixed $group): Schema {
+        $str = "GROUP BY ";
+        if(is_string($group)) $str .= $group;
+        if(is_array($group)) $str .= implode(",", $group);
+        (strlen($this->_groupBy) > 0) ? $this->_groupBy .= $str : $this->_groupBy = $str;
+        return $this;
+    }
+
+    private ?string $_join = "";
+
+    function join(string $tbl, string $cond): Schema {
+        $this->_join .= (strlen($this->_join) > 0 ? " " : "")."JOIN {$tbl} ON {$cond}";
+        return $this;
+    }
+
+    function innerJoin(string $tbl, string $cond): Schema {
+        $this->_join .= (strlen($this->_join) > 0 ? " " : "")."INNER JOIN {$tbl} ON {$cond}";
+        return $this;
+    }
+
+    function leftJoin(string $tbl, string $cond): Schema {
+        $this->_join .= (strlen($this->_join) > 0 ? " " : "")."LEFT JOIN {$tbl} ON {$cond}";
+        return $this;
+    }
+
+    function startTransaction(): bool {
+        return $this->query("BEGIN TRANSACTION");
+    }
+
+    function commit(): bool {
+        return $this->query("COMMIT");
+    }
+
+    function rollback(): bool {
+        return $this->query("ROLLBACK");
+    }
+
+    private ?string $_orWhere = null;
+    function orWhere(string|array $orWhere): Schema {
+        $tmp = "";
+        if(is_string($orWhere)) $tmp = $orWhere;
+        if(is_array($orWhere)) {
+            foreach($orWhere as $index => $w) {
+                if ($index !== 0 ) $tmp .= " OR ";
+                if(is_string($w)) $tmp .= $w;
+                if(is_array($w)) {
+                    if(count($w) == 2) $tmp .= "{$w[0]} = {$this->prepareValue($w[1])}";
+                    if(count($w) == 3) $tmp .= "{$w[0]} {$w[1]} {$this->prepareValue($w[2])}";
+                }
+            }
+        }
+        $this->_orWhere .= (strlen($tmp) > 0 ? ($this->_orWhere == null ? "WHERE" : " OR")." ({$tmp})" : "");
+        return $this;
+    }
+
+    // ALTER TABLE
+    function resetAltertable() {
+        $this->_modifyColumn = "";
+        $this->_addColumn = "";
+        $this->_dropColumn = "";
+        $this->_dropPrimary = "";
+        $this->_addPrimary = "";
+    }
+
+    function getNamePrimaryKey(string $table){
+        return $this->query("SELECT name FROM sys.key_constraints WHERE type = 'PK' AND OBJECT_NAME(parent_object_id) = N'{$table}';")->row();
+    }
+
+    function alter(string $table): Result | bool {
+        $alter = "ALTER TABLE {$table}";
+        $modifyColumn = $this->_modifyColumn;
+        $addColumn = $this->_addColumn;
+        $dropColumn = $this->_dropColumn;
+        if(strlen($this->_dropPrimary > 0)) {
+            $primaryName = $this->getNamePrimaryKey($table)->name;
+            $dropPrimary = implode(" ", [$this->_dropPrimary, $primaryName]);
+        }
+
+        $addPrimary = $this->_addPrimary;
+        $sql = implode(" ", [$alter, $modifyColumn, $addColumn, $dropColumn, $dropPrimary, $addPrimary]);
+        $this->resetAltertable();
+        return $this->query($sql);
+    }
+
+    private ?string $_modifyColumn = "";
+
+    function modifyColumn(string $column, string $type): Schema {
+        $this->_modifyColumn = "ALTER COLUMN {$column} {$type}";
+        return $this;
+    }
+
+    private ?string $_addColumn = "";
+
+    function addColumn(string $column, string $type): Schema {
+        $this->_addColumn = "ADD {$column} {$type}";
+        return $this;
+    }
+
+    private ?string $_dropColumn = "";
+
+    function dropColumn(string $column): Schema {
+        $this->_dropColumn = "DROP COLUMN {$column}";
+        return $this;
+    }
+
+    private ?string $_dropPrimary = "";
+
+    function dropPrimary(): Schema {
+        $this->_dropPrimary = "DROP CONSTRAINT";
+        return $this;
+    }
+
+    private ?string $_addPrimary = "";
+
+    function addPrimary(string $column, string $primary_name): Schema {
+        $this->_addPrimary = "ADD CONSTRAINT {$primary_name} PRIMARY KEY CLUSTERED ({$column})";
+        return $this;
+    }
+
+    function createIndex(string $table, string $index_name, array $cols): Result|bool {
+        $column = implode(",", $cols);
+        $sql = "CREATE CLUSTERED INDEX {$index_name} ON {$table} ({$column});";
+        return $this->query($sql);
+    }
+    function dropIndex(string $table, string $index_name): Result|bool {
+        $sql = "DROP INDEX {$index_name} ON {$table};";
+        return $this->query($sql);
     }
 
 }

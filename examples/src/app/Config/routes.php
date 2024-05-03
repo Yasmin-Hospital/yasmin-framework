@@ -23,12 +23,25 @@ class MainController {
 
     function getRuang() {
         $db = Manager::get('main');
-        $ruang = $db->order(['nama' => 'ASC'])->limit(10)->get('ruang');
+        $ruang = $db->query('exec Pr_TampilRuang \'RAWAT INAP\', \'RAWATINAP\''); 
+        // $ruang = $db->query('select nama, namakelas from vruangkelas where jenisruang=\'RAWATINAP\''); 
+        // $db->order(['nama' => 'ASC'])->limit(10)->select(['nama','jenisruang'])
+        //         ->where([['jenisruang', '=', 'RAWATINAP'], ['kodekelas','=','RI-VB']])->get('ruang');
         return new Response(json_encode(['data' => $ruang->result()], JSON_PRETTY_PRINT));
     }
 
-}
+    function allroom(){
+        $db = Manager::get('main');
+        $allroom = $db->query('select * from masteruser ');
+        return new Response(json_encode(['data' => $allroom->result()], JSON_PRETTY_PRINT));
 
-Route::get('/ruang', 'MainController@getRuang');
-Route::get('/{idPoliklinik}', 'MainController@index');
+    }
+
+}
+Route::get('/allroom', 'MainController@allroom');
+Route::get('/ruang', '\\App\\Controllers\\HomeController@getRuang');
+Route::get('/kelurahan', '\\App\\Controllers\\HomeController@getKelurahan');
 Route::get('/', 'MainController@index');
+// Route::get('/{idPoliklinik}', 'MainController@index');
+// Route::get('/{idPoliklinik}', 'MainController@index');
+// Route::get('/', 'MainController@index');

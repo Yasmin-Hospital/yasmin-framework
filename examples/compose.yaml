@@ -7,5 +7,12 @@ services:
     volumes:
       - ./src:/workspace/www
       - ../src:/workspace/src
+      - ./vhost.conf:/etc/apache2/conf.d/vhost.conf
     ports:
       - 8091:80
+    networks:
+      - environment
+
+networks:
+  environment:
+    external: true
