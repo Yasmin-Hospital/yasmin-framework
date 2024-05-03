@@ -164,12 +164,47 @@ class SQLSrvSchema implements Schema {
         return $this;
     }
 
+    private ?string $_group = "";
+
+    function groupBy(mixed $group): Schema {
+        $str = "";
+        if(is_string($group)) $str = $group;
+        if(is_array($group)) $str = implode(", ", $group);
+        $this->_group .= (strlen($this->_group) > 0) ? ", ".$str : "GROUP BY ".$str; 
+        return $this;   
+    }
+
+    private ?string $_join = "";
+
+    function join(string $tbl, string $cond, string $direction = null): Schema {
+        $str = "";
+        $str .= (strlen($this->_join) > 0 ? " " : "");
+        $str .= ($direction != null ? $direction." " : "");
+        $str .= "JOIN {$tbl} ON {$cond}";
+        $this->_join .= $str;
+        return $this;
+    }
+
+    function innerJoin(string $tbl, string $cond): Schema {
+        return $this->join($tbl, $cond, 'INNER');
+    }
+
+    function leftJoin(string $tbl, string $cond): Schema {
+        return $this->join($tbl, $cond, 'LEFT');
+    }
+
+    function rightJoin(string $tbl, string $cond): Schema {
+        return $this->join($tbl, $cond, 'RIGHT');
+    }
+
     private function reset() {
         $this->_select = '';
         $this->_where = '';
         $this->_order = '';
         $this->_offset = "OFFSET 0 ROWS";
         $this->_limit = '';
+        $this->_join = '';
+        $this->_group = '';
     }
 
     function getSql(string $table): string {
@@ -178,8 +213,14 @@ class SQLSrvSchema implements Schema {
 
         $from = " FROM {$table}";
 
+        $join = $this->_join;
+        if(strlen($join) > 0) $join = " ".$join;
+
         $where = $this->_where;
         if(strlen($where) > 0) $where = " ".$where;
+
+        $group = $this->_group;
+        if(strlen($group) > 0) $group = " ".$group;
 
         $order = $this->_order;
         if(strlen($order) > 0) {
@@ -188,7 +229,7 @@ class SQLSrvSchema implements Schema {
             if(strlen($this->_limit) > 0) $order .= " ".$this->_limit;
         }
 
-        $sql = "{$select}{$from}{$where}{$order}";
+        $sql = "{$select}{$from}{$join}{$where}{$group}{$order}";
         $this->reset();
         return $sql;
     }
