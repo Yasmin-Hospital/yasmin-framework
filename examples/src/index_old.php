@@ -67,7 +67,7 @@ Route::get('/db', function () {
 
 
     // mysql
-    $PenggunaMysql = $mysqlDb->order(cols:"Pengguna.PenggunaId")->limit(2)->offset(3)->get('Pengguna');
+    $PenggunaMysql = $mysqlDb->order("Pengguna.PenggunaId")->limit(2)->offset(3)->get('Pengguna');
 
     return new Response(json_encode([
         // 'connect' => $connectRes,

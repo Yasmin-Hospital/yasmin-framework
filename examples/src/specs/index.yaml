@@ -4,6 +4,8 @@ info:
   version: '1.0'
 
 servers:
+  - url: http://yasmin.framework/
+    description: Development Custom Vhost
   - url: http://localhost:8091/
     description: Development
 
@@ -12,15 +14,14 @@ tags:
     description: Manajemen data kontak
   - name: Grup
     description: Manajemen data grup
+  - name: Test
+    description: Manajemen data Test
 
 paths:
   /kontak:
-    get:
-      summary: Mengambil data kontak
-      tags: [Kontak]
-      responses:
-        '200':
-          description: Semua data kontak
+    $ref: './paths/kontak/kontak.yaml'
+  /kontak/{idKontak}:
+    $ref: './paths/kontak/kontak-{idKontak}.yaml'
 
   /grup:
     get:

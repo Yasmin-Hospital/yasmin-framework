@@ -1,0 +1,12 @@
+properties:
+  nmKontak:
+    type: string
+  idGrup:
+    type: integer
+  penjualan:
+    type: integer
+
+example:
+  nmKontak: Nafis Harwin
+  idGrup: 1
+  penjualan: 25000

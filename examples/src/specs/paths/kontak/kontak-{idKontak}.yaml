@@ -1,0 +1,45 @@
+get:
+  summary: Mengambil Kontak berdasarkan id kontak
+  tags: [Kontak]
+  parameters:
+    - in: path
+      required: true
+      name: idKontak
+      schema: 
+        type: integer
+  responses:
+    '200':
+      description: Object Kontak terpilih
+
+patch:
+  summary: Mengubah Kontak berdasarkan id kontak
+  tags: [Kontak]
+  parameters:
+    - in: path
+      required: true
+      name: idKontak
+      schema: 
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema: 
+          type: object
+          $ref: "../../schemas/Kontak.yaml"
+  responses:
+    '204':
+      description: Berhasil merubah Kontak
+
+delete:
+  summary: Menghapus Kontak berdasarkan id kontak
+  tags: [Kontak]
+  parameters:
+    - in: path
+      required: true
+      name: idKontak
+      schema: 
+        type: integer
+  responses:
+    '204' :
+      description: Kontak berhasil dihapus
