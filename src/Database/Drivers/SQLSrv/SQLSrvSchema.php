@@ -338,7 +338,6 @@ class SQLSrvSchema implements Schema {
         return $this->query("ROLLBACK");
     }
 
-    private ?string $_orWhere = null;
     function orWhere(string|array $orWhere): Schema {
         $tmp = "";
         if(is_string($orWhere)) $tmp = $orWhere;
@@ -352,7 +351,7 @@ class SQLSrvSchema implements Schema {
                 }
             }
         }
-        $this->_orWhere .= (strlen($tmp) > 0 ? ($this->_orWhere == null ? "WHERE" : " OR")." ({$tmp})" : "");
+        $this->_where .= (strlen($tmp) > 0 ? ($this->_where == null ? "WHERE" : " AND")." ({$tmp})" : "");
         return $this;
     }
 

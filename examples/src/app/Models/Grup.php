@@ -22,6 +22,7 @@ class Grup extends Model {
             'SUM(kontak.penjualan) AS penjualan'
         ])
         ->leftJoin('kontak', 'kontak.idGrup = grup.idGrup')
+        ->where(['kontak.idKontak NOT IN (1, 4)'])
         ->groupBy(['grup.idGrup'])
         ->getSql('grup');
 

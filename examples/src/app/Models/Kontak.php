@@ -25,9 +25,12 @@ class Kontak {
         }
         
         return $this->db->select([
-            'kontak.*'
+            'kontak.*',
+            'grup.nmGrup'
         ])
+            ->innerJoin('grup', 'grup.idGrup = kontak.idGrup')
             ->where($where)->orWhere($orWhere)
+            ->order($order)
             ->get('kontak')->result();
     }
 
