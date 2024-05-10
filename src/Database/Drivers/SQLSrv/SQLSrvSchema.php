@@ -403,8 +403,7 @@ class SQLSrvSchema implements Schema {
         return $this->query($sql);
     }
 
-    function rename(string $table, string $new_table): Result | bool
-    {
+    function rename(string $table, string $new_table): Result | bool {
         return $this->query('sp_rename '.$table.', '.$new_table);
     }
 

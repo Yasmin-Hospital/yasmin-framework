@@ -56,7 +56,8 @@ class Handler  {
         self::set('default', function (\Throwable $e) {
             \jsonResponse([
                 'code' => $e->getCode(),
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
             ])->send();
         });
     }
