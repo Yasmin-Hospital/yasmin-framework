@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Yasmin\Database\Manager;
 use Yasmin\Database\Schema;
-
 use Yasmin\Model;
 
 class Grup extends Model {
@@ -12,32 +11,57 @@ class Grup extends Model {
     private Schema $db;
 
     function __construct() {
-        $this->db = Manager::get('main');    
+        $this->db = Manager::get('main');
     }
 
-    function result($where = []) {
+    function result() {
+        $config = $this->db->getConfig();
+        $driver = $config['driver'];
+
         $a = $this->db->select([
             'grup.idGrup',
-            'COUNT(kontak.idKontak) AS jmlKontak',
-            'SUM(kontak.penjualan) AS penjualan'
+            ($driver == 'sqlsrv' ? 'ISNULL' : 'IFNULL').'(COUNT(kontak.idKontak), 0) AS jmlKontak'
         ])
         ->leftJoin('kontak', 'kontak.idGrup = grup.idGrup')
-        ->where(['kontak.idKontak NOT IN (1, 4)'])
-        ->groupBy(['grup.idGrup'])
-        ->getSql('grup');
+        ->groupBy(['grup.idGrup'])->getSql('grup');
 
         return $this->db->select([
             'grup.*',
-            'a.jmlKontak',
-            'a.penjualan'
+            'a.jmlKontak'
         ])
-        ->innerJoin('('.$a.') a', 'grup.idGrup = a.idGrup')
-        ->where($where)
-        ->get('grup')->result();
+        ->leftJoin('('.$a.') a','a.idGrup = grup.idGrup')
+        ->get("grup")->result();
     }
 
-    function row($where) {
-        return $this->db->where($where)->get('grup')->row();
+    function insert(array $data) {
+        if($this->db->insert("grup", $data) !== false) {
+            return $this->db->lastId();
+        }
+        return false;
+    }
+
+    function row (array $where){
+        $a = $this->db->select([
+            'grup.idGrup',
+            'COUNT(kontak.idKontak) AS jmlKontak'
+        ])
+        ->leftJoin('kontak', 'kontak.idGrup = grup.idGrup')
+        ->groupBy(['grup.idGrup'])->getSql('grup');
+
+        return $this->db->select([
+            'grup.*',
+            'a.jmlKontak'
+        ])
+        ->leftJoin('('.$a.') a','a.idGrup = grup.idGrup')
+        ->where($where)->get("grup")->row();
+    }
+
+    function update(array $where, array $data) {
+        return $this->db->where($where)->update("grup", $data);
+    }
+
+    function delete (array $where) {
+        return $this->db->where($where)->delete("grup");
     }
 
 }

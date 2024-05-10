@@ -14,7 +14,7 @@ class Response {
 
     function send() {
         if(php_sapi_name() != 'cli') http_response_code($this->code);
-        if($this->content != null) echo $this->content;
+        echo $this->content;
         if(php_sapi_name() == 'cli') echo "\n";
         die();
     }

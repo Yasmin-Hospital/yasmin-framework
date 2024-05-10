@@ -12,14 +12,18 @@ if(!function_exists('response')) {
 }
 
 if(!function_exists('jsonResponse')) {
-    function jsonResponse($content = null, $code = 200, $json_options = JSON_PRETTY_PRINT) {
-        return response(json_encode($content, $json_options), $code);
+    function jsonResponse($content = null, $code = 200, $options = JSON_PRETTY_PRINT) {
+        return response($content !== null ? json_encode($content, $options) : null, $code);
     }
 }
 
 if(!function_exists('view')) {
-    function view($file) {
-        return new View($file);
+    function view($file, $vars = []) {
+        $view = new View($file);
+        foreach($vars as $key => $value) {
+            $view->setVar($key, $value);
+        }
+        return $view;
     }
 }
 
@@ -48,26 +52,5 @@ if(!function_exists('redirect')) {
     function redirect($uri) {
         header('location:'.siteUrl($uri));
         exit();
-    }
-}
-
-if(!function_exists('buildSearch')) {
-    function buildSearch($cols, $str) {
-        $orWhere = [];
-        foreach($cols as $col) {
-            $orWhere[] = [$col, 'LIKE', '%'.$str.'%'];
-        }
-        return $orWhere;
-    }
-}
-
-if(!function_exists('buildOrder')) {
-    function buildOrder($str) {
-        $order = [];
-        foreach(explode(',', $str) as $s) {
-            $a = explode(':', $s);
-            $order[$a[0]] = $a[1];
-        }
-        return $order;
     }
 }

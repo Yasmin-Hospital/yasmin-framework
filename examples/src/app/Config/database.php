@@ -1,13 +1,6 @@
 <?php
 
-use Yasmin\Database\Manager;
-use Yasmin\Database\Migration;
-use Yasmin\Cli;
-
-$dbConfigFile = BASEPATH.'/private/.DBCONFIG';
-$dbConfig = json_decode(file_get_contents($dbConfigFile), true);
-Manager::add('main', $dbConfig);
-Manager::get('main')->connect();
-
-Migration::addMigration('main', BASEPATH.'/app/Migrations');
-Cli::register('migrate', Migration::class);
+$mysqlConfig = json_decode(file_get_contents(BASEPATH. '/private/.DBCONFIG_MYSQL'), true);
+Yasmin\Database\Manager::add('mysql', $mysqlConfig);
+Yasmin\Database\Migration::addMigration('mysql', BASEPATH.'/app/Migrations/MySQL');
+Yasmin\Cli::register('migrate', Yasmin\Database\Migration::class);

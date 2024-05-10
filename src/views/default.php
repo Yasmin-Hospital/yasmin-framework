@@ -57,13 +57,13 @@
 </head>
 <body>
     <div class="container box">
-        <h1>Welcome to Yasmin Framework</h1>
+        <h1>Welcome to Selvi Framework</h1>
         <p>
         When you see this page, it means yasmin framework is working on your environment.
         </p>
     </div>
     <div class="container footer">
-        Coded with &hearts; by Simrs with Guidance from Wajek Studio
+        Coded with &hearts; by Wajek Studio
     </div>
 </body>
 </html>

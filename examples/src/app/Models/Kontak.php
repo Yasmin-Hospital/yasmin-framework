@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Yasmin\Database\Manager;
 use Yasmin\Database\Schema;
+use Yasmin\Model;
+use stdClass;
 
-class Kontak {
+class Kontak extends Model {
 
     private Schema $db;
 
@@ -13,50 +15,50 @@ class Kontak {
         $this->db = Manager::get('main');
     }
 
-    function count(Array $where = [], Array $orWhere = []) {
-        return $this->db->select(['COUNT(kontak.idKontak) as jmlKontak'])
+    function count(array $where = [], array $orWhere = []) : int {
+        $config = $this->db->getConfig();
+        $driver = $config['driver'];
+        return $this->db->select(($driver == 'mysql' ? 'IFNULL' : 'ISNULL').'(COUNT(kontak.idKontak), 0) AS jmlKontak')
+            ->innerJoin('grup', 'grup.idGrup = kontak.idGrup')
             ->where($where)->orWhere($orWhere)
             ->get('kontak')->row()->jmlKontak;
     }
 
-    function result(Array $where = [], Array $orWhere, Array $order = [], int $limit = -1, int $offset = 0) {
-        if($limit > -1) {
-            $this->db->limit($limit)->offset($offset);
-        }
-        
+    function result(array $where = [], array $orWhere = [], array $order = [], int $offset = 0, int $limit = -1) : array {
         return $this->db->select([
-            'kontak.*',
+            'kontak.idKontak',
+            'kontak.nmKontak',
             'grup.nmGrup'
         ])
-            ->innerJoin('grup', 'grup.idGrup = kontak.idGrup')
-            ->where($where)->orWhere($orWhere)
-            ->order($order)
-            ->get('kontak')->result();
+        ->where($where)->orWhere($orWhere)
+        ->offset($offset)->limit($limit)->order($order)
+        ->innerJoin('grup', 'grup.idGrup = kontak.idGrup')
+        ->get('kontak')->result();
     }
 
-    function row($where) {
-        return $this->db->where($where)
-            ->get('kontak')->row();
+    function row(array $where): stdClass {
+        return $this->db->select([
+            'kontak.idKontak',
+            'kontak.nmKontak',
+            'grup.nmGrup'
+        ])
+        ->innerJoin('grup','grup.idGrup = kontak.idGrup')
+        ->where($where)->get("kontak")->row();
     }
 
-    function lastid() {
-        $query = $this->db->query('SELECT @@IDENTITY AS lastid');
-        return $query->row()->lastid;
-    }
-
-    function insert(Array $data) {
+    function insert(array $data): bool | int {
         if($this->db->insert('kontak', $data)) {
-            return $this->lastid();
+            return $this->db->lastId();
         }
         return false;
     }
 
-    function update(Array $where, Array $data) {
-        return $this->db->where($where)->update('kontak', $data);
+    function update(array $where, array $data): bool {
+        return $this->db->where($where)->update("kontak", $data);
     }
 
-    function delete(Array $where) {
-        return $this->db->where($where)->delete('kontak');
+    function delete (array $where): bool {
+        return $this->db->where($where)->delete("kontak");
     }
 
 }
