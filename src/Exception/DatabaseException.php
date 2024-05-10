@@ -1,8 +1,8 @@
 <?php 
 
-namespace Selvi\Exception;
+namespace Yasmin\Exception;
 
-use Selvi\Exception;
+use Yasmin\Exception;
 
 class DatabaseException extends Exception {
 

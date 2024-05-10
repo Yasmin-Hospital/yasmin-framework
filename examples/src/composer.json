@@ -5,7 +5,7 @@
             "../src/Helpers.php"
         ],
         "psr-4": {
-            "Selvi\\": "../src",
+            "Yasmin\\": "../src",
             "App\\": "./app"
         }
     },

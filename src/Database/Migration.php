@@ -1,9 +1,9 @@
 <?php 
 
-namespace Selvi\Database;
+namespace Yasmin\Database;
 
-use Selvi\Exception;
-use Selvi\Database\Manager;
+use Yasmin\Exception;
+use Yasmin\Database\Manager;
 
 class Migration {
 

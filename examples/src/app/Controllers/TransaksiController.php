@@ -5,9 +5,9 @@ namespace App\Controllers;
 use App\Models\Transaksi;
 use App\Models\TransaksiDetail;
 
-use Selvi\Database\Manager;
-use Selvi\Exception;
-use Selvi\Request;
+use Yasmin\Database\Manager;
+use Yasmin\Exception;
+use Yasmin\Request;
 
 class TransaksiController {
 

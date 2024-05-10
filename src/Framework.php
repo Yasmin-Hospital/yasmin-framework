@@ -1,13 +1,13 @@
 <?php 
 
-namespace Selvi;
+namespace Yasmin;
 
 use ReflectionNamedType;
-use Selvi\Factory;
-use Selvi\Uri;
-use Selvi\Request;
-use Selvi\Route;
-use Selvi\Cli;
+use Yasmin\Factory;
+use Yasmin\Uri;
+use Yasmin\Request;
+use Yasmin\Route;
+use Yasmin\Cli;
 
 class Framework {
 
@@ -56,7 +56,7 @@ class Framework {
             $response = $callable(...$parameters);
             $response->send();
         } catch(\ReflectionException $e) {
-            throw new \Selvi\Exception($e->getMessage(), "reflection/error", 500);
+            throw new \Yasmin\Exception($e->getMessage(), "reflection/error", 500);
         }
     }
 

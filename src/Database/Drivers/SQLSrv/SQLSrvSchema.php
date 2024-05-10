@@ -1,11 +1,11 @@
 <?php 
 
-namespace Selvi\Database\Drivers\SQLSrv;
+namespace Yasmin\Database\Drivers\SQLSrv;
 
-use Selvi\Database\Drivers\SQLSrv\SQLSrvResult;
-use Selvi\Database\Result;
-use Selvi\Database\Schema;
-use Selvi\Exception\DatabaseException;
+use Yasmin\Database\Drivers\SQLSrv\SQLSrvResult;
+use Yasmin\Database\Result;
+use Yasmin\Database\Schema;
+use Yasmin\Exception\DatabaseException;
 
 class SQLSrvSchema implements Schema {
 

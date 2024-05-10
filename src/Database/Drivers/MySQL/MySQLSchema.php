@@ -1,12 +1,12 @@
 <?php 
 
-namespace Selvi\Database\Drivers\MySQL;
+namespace Yasmin\Database\Drivers\MySQL;
 
 use mysqli;
 use mysqli_sql_exception;
-use Selvi\Database\Schema;
-use Selvi\Database\Result;
-use Selvi\Exception\DatabaseException;
+use Yasmin\Database\Schema;
+use Yasmin\Database\Result;
+use Yasmin\Exception\DatabaseException;
 
 class MySQLSchema implements Schema {
 

@@ -1,7 +1,7 @@
 <?php 
 
-namespace Selvi;
+namespace Yasmin;
 
-use Selvi\Base;
+use Yasmin\Base;
 
 class Controller extends Base { }

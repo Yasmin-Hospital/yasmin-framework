@@ -1,6 +1,6 @@
 <?php
 
-namespace Selvi;
+namespace Yasmin;
 use Exception as PHPException;
 
 class Exception extends PHPException {

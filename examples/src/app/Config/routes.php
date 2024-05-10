@@ -1,6 +1,6 @@
 <?php 
 
-use Selvi\Route;
+use Yasmin\Route;
 
 Route::get('/kontak', '\\App\\Controllers\\KontakController@result');
 Route::get('/kontak/{id}', '\\App\\Controllers\\KontakController@row');

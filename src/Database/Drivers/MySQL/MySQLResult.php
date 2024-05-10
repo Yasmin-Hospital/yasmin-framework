@@ -1,9 +1,9 @@
 <?php 
 
-namespace Selvi\Database\Drivers\MySQL;
+namespace Yasmin\Database\Drivers\MySQL;
 
 use \mysqli_result;
-use Selvi\Database\Result;
+use Yasmin\Database\Result;
 use stdClass;
 
 class MySQLResult implements Result {

@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Kontak;
-use Selvi\Request;
+use Yasmin\Request;
 
 class KontakController {
 

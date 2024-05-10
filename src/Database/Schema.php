@@ -1,6 +1,6 @@
 <?php 
 
-namespace Selvi\Database;
+namespace Yasmin\Database;
 
 interface Schema {
 
