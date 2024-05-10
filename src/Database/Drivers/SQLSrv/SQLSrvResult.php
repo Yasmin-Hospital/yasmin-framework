@@ -1,8 +1,8 @@
 <?php 
 
-namespace Selvi\Database\Drivers\SQLSrv;
+namespace Yasmin\Database\Drivers\SQLSrv;
 
-use Selvi\Database\Result;
+use Yasmin\Database\Result;
 use stdClass;
 
 class SQLSrvResult implements Result {

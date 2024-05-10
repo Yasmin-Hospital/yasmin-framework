@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Grup;
-use Selvi\Request;
+use Yasmin\Request;
 
 class GrupController {
 

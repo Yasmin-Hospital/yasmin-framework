@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Selvi\Database\Manager;
-use Selvi\Database\Schema;
-use Selvi\Model;
+use Yasmin\Database\Manager;
+use Yasmin\Database\Schema;
+use Yasmin\Model;
 use stdClass;
 
 class Kontak extends Model {

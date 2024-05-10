@@ -1,6 +1,6 @@
 <?php
 
-use Selvi\Database\Schema;
+use Yasmin\Database\Schema;
 
 return function (Schema $schema, string $direction) {
 

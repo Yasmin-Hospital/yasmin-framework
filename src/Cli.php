@@ -1,8 +1,8 @@
 <?php 
 
-namespace Selvi;
-use Selvi\Factory;
-use Selvi\Exception;
+namespace Yasmin;
+use Yasmin\Factory;
+use Yasmin\Exception;
 
 class Cli {
 

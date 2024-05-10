@@ -1,11 +1,11 @@
 {
-    "name": "mochrira/selvi-framework-examples",
+    "name": "yasmin/framework-examples",
     "autoload": {
         "files": [
             "../src/Helpers.php"
         ],
         "psr-4": {
-            "Selvi\\": "../src",
+            "Yasmin\\": "../src",
             "App\\": "./app"
         }
     },

@@ -1,9 +1,9 @@
 <?php 
 
-namespace Selvi\Database;
+namespace Yasmin\Database;
 
-use Selvi\Database\Drivers\MySQL\MySQLSchema;
-use Selvi\Database\Drivers\SQLSrv\SQLSrvSchema;
+use Yasmin\Database\Drivers\MySQL\MySQLSchema;
+use Yasmin\Database\Drivers\SQLSrv\SQLSrvSchema;
 
 class Manager {
 

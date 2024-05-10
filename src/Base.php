@@ -1,5 +1,5 @@
 <?php 
 
-namespace Selvi;
+namespace Yasmin;
 
 class Base { }

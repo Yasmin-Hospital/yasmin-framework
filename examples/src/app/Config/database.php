@@ -1,6 +1,6 @@
 <?php
 
 $mysqlConfig = json_decode(file_get_contents(BASEPATH. '/private/.DBCONFIG_MYSQL'), true);
-Selvi\Database\Manager::add('mysql', $mysqlConfig);
-Selvi\Database\Migration::addMigration('mysql', BASEPATH.'/app/Migrations/MySQL');
-Selvi\Cli::register('migrate', Selvi\Database\Migration::class);
+Yasmin\Database\Manager::add('mysql', $mysqlConfig);
+Yasmin\Database\Migration::addMigration('mysql', BASEPATH.'/app/Migrations/MySQL');
+Yasmin\Cli::register('migrate', Yasmin\Database\Migration::class);

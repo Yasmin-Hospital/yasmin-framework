@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: Spesifikasi Testing
-  description: Digunakan untuk melakukan testing fitur dan performa Selvi Framework
+  description: Digunakan untuk melakukan testing fitur dan performa Yasmin Framework
   version: 1.0.0
 
 servers:

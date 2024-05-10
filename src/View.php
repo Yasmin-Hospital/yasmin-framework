@@ -1,8 +1,8 @@
 <?php 
 
-namespace Selvi;
+namespace Yasmin;
 
-use Selvi\Response;
+use Yasmin\Response;
 
 class View {
 

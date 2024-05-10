@@ -1,6 +1,6 @@
 <?php 
 
-namespace Selvi\Exception;
+namespace Yasmin\Exception;
 
 class Handler  {
 
@@ -24,14 +24,14 @@ class Handler  {
     }
 
     public static function setDefaultHandlers() {
-        self::set('exception/framework', function (\Selvi\Exception $e) {
+        self::set('exception/framework', function (\Yasmin\Exception $e) {
             \jsonResponse([
                 'code' => $e->getCodeString(),
                 'message' => $e->getMessage()
             ])->send();
         });
         
-        self::set('exception/database', function (\Selvi\Exception\DatabaseException $e) {
+        self::set('exception/database', function (\Yasmin\Exception\DatabaseException $e) {
             \jsonResponse([
                 'code' => $e->getCodeString(),
                 'message' => $e->getMessage(),
@@ -42,7 +42,7 @@ class Handler  {
             ])->send();
         });
         
-        self::set('exception/http', function (\Selvi\Exception\HttpException $e) {
+        self::set('exception/http', function (\Yasmin\Exception\HttpException $e) {
             \jsonResponse([
                 'code' => $e->getCodeString(),
                 'message' => $e->getMessage(),

@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Produk;
-use Selvi\Request;
+use Yasmin\Request;
 
 class ProdukController {
 

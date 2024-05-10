@@ -1,9 +1,9 @@
 <?php 
 
-use Selvi\Response;
-use Selvi\View;
-use Selvi\Factory;
-use Selvi\Uri;
+use Yasmin\Response;
+use Yasmin\View;
+use Yasmin\Factory;
+use Yasmin\Uri;
 
 if(!function_exists('response')) {
     function response($content = '', $code = 200) {

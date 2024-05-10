@@ -1,8 +1,8 @@
 version: '3.0'
-name: selvi_framework
+name: yasmin_framework
 services:
   backend: 
-    container_name: selvi_framework_container
+    container_name: yasmin_framework_container
     image: rsyasmin/dev:latest
     volumes:
       - ./src:/workspace/www
@@ -12,10 +12,6 @@ services:
     networks:
       - environment
       - database
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.framework.rule=Host(`framework.local`)"
-      - "traefik.http.services.framework.loadbalancer.server.port=80"
 
 networks:
   environment:

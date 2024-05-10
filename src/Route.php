@@ -1,8 +1,8 @@
 <?php 
 
-namespace Selvi;
+namespace Yasmin;
 
-use Selvi\Exception\HttpException;
+use Yasmin\Exception\HttpException;
 
 class Route {
 

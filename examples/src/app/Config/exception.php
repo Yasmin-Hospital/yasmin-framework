@@ -1,4 +1,4 @@
 <?php 
 
-Selvi\Exception\Handler::setDefaultHandlers();
-Selvi\Exception\Handler::listen();
+Yasmin\Exception\Handler::setDefaultHandlers();
+Yasmin\Exception\Handler::listen();
