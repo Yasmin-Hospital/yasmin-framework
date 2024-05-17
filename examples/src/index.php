@@ -3,12 +3,16 @@
 declare(strict_types=1);
 
 require 'vendor/autoload.php';
+define('BASEPATH', __DIR__);
 
 use Yasmin\Response;
 use Yasmin\Route;
 use Yasmin\Framework;
 use Yasmin\Uri;
 use Yasmin\Database\Manager;
+
+require BASEPATH . '/app/Config/routes.php';
+// require BASEPATH . '/app/Config/database.php';
 
 /** Simplest way */
 Route::get('/',function() { 
@@ -43,14 +47,16 @@ Route::get('/dependency/{name}', function (string $name, Uri $uri) {
 });
 
 $config = json_decode(file_get_contents(__DIR__.'/private/.DBCONFIG'), true);
-$configMysql = [
-    "driver" => "mysql",
-    "host"=>"mariadb.database",
-    "username" => "root",
-    "password" => "root"
-];
-Manager::add('slave', $configMysql);
+// $configMysql = [
+//     "driver" => "mysql",
+//     "host"=>"mariadb.database",
+//     "username" => "root",
+//     "password" => "root"
+// ];
+// Manager::add('slave', $configMysql);
 Manager::add('main', $config);
+Yasmin\Database\Migration::addMigration('main', BASEPATH.'/app/Migrations');
+Yasmin\Cli::register('migrate', Yasmin\Database\Migration::class);
 
 Route::get('/db', function () {
     $db = Manager::get('main');

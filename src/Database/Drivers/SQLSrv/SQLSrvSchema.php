@@ -350,6 +350,7 @@ class SQLSrvSchema implements Schema {
         $modifyColumn = $this->_modifyColumn;
         $addColumn = $this->_addColumn;
         $dropColumn = $this->_dropColumn;
+        $dropPrimary = $this->_dropPrimary;
         if(strlen($this->_dropPrimary > 0)) {
             $primaryName = $this->getNamePrimaryKey($table)->name;
             $dropPrimary = implode(" ", [$this->_dropPrimary, $primaryName]);
