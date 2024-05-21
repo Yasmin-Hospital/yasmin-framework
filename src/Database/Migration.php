@@ -115,10 +115,10 @@ class Migration {
                         continue;
                     }
 
-                    if($cekUp != null && $cekUp->output == 'failed') {
-                        echo "[skipped] [direction=".$direction."] ".$label." up direction status failed\n";
-                        continue;
-                    }
+                    // if($cekUp != null && $cekUp->output == 'failed') {
+                    //     echo "[skipped] [direction=".$direction."] ".$label." up direction status failed\n";
+                    //     continue;
+                    // }
                 }
 
                 $cek = $this->lastrecord($db, basename($file));
