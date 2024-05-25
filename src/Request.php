@@ -8,6 +8,7 @@ class Request {
     private $_post = null;
     private $_get = null;
     private $_raw = null;
+    private $_file = null;
 
     function method() {
         if(!$this->_method) $this->_method = $_SERVER['REQUEST_METHOD'];
@@ -29,6 +30,11 @@ class Request {
     function post($name) {
         if(!$this->_post) $this->_post = $_POST;
         return $this->_post[$name] ?? null;
+    }
+
+    function file($name) {
+        if(!$this->_file) $this->_file = $_FILES;
+        return $this->_file[$name] ?? null;
     }
 
     function get($name) {
