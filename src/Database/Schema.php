@@ -43,6 +43,7 @@ interface Schema {
     // public function addColumnFirst(string $column, string $type): void;
     // public function addColumnAfter(string $afterCol, string $column, string $type): void;
     public function rename(string $table,string $new_table): Result | bool;
+    public function renameColumn(string $table, string $column, string $new_column): Result | bool;
 
     public function createIndex(string $table, string $index_name, array $cols): Result | bool;
     public function truncate(string $table): Result | bool;

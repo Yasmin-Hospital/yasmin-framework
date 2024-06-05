@@ -411,4 +411,8 @@ class SQLSrvSchema implements Schema {
         return $this->query('sp_rename '.$table.', '.$new_table);
     }
 
+    function renameColumn(string $table, string $column, string $new_Column): Result | bool {
+        return $this->query("EXEC sp_rename '{$table}.{$column}', '{$new_Column}'");
+    }
+
 }
