@@ -20,6 +20,7 @@ class MySQLSchema implements Schema {
     private ?string $_join = null;
     private ?string $_group = null;
     private ?string $_modifyColumn = null;
+    private ?string $_renameColumn = null;
     private ?string $_addColumn = null;
     private ?string $_dropColumn = null;
     private ?string $_dropPrimary = null;
@@ -310,6 +311,7 @@ class MySQLSchema implements Schema {
         $this->_group = null;
 
         $this->_modifyColumn = null;
+        $this->_renameColumn = null;
         $this->_addColumn = null;
         $this->_dropColumn = null;
         $this->_dropPrimary = null;
@@ -391,6 +393,11 @@ class MySQLSchema implements Schema {
 
     function rename(string $table, string $new_table): Result | bool {
         return $this->query('RENAME TABLE '.$table.' TO '.$new_table);
+    }
+
+    function renameColumn(string $table = null, string $column, string $new_Column): Schema {
+        $this->_renameColumn = "RENAME COLUMN {$column} TO {$new_Column}";
+        return $this;
     }
 
 }
