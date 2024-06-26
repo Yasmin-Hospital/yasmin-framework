@@ -271,7 +271,11 @@ class SQLSrvSchema implements Schema {
         $values = [];
         foreach($data as $c => $v){
             $columns[] = $c;
-            $values[] = self::prepareValue($v);
+            if(is_array($v) && isset($v['useN'])) {
+                $values[] = "N".self::prepareValue($v['useN']);
+            } else {
+                $values[] = self::prepareValue($v);
+            }
         }
 
         $col_str = implode(', ', $columns);
@@ -286,7 +290,11 @@ class SQLSrvSchema implements Schema {
     function update(string $tbl, array $data): Result | bool {
         $columns = [];
         foreach($data as $c => $v){
-            $columns[] = "{$c} = " . $this->prepareValue($v);
+            if(is_array($v) && isset($v['useN'])) {
+                $columns[] = "{$c} = N" . self::prepareValue($v['useN']);
+            } else {
+                $columns[] = "{$c} = " . self::prepareValue($v);
+            }
         }
         $col_str = implode(", ", $columns);
 
