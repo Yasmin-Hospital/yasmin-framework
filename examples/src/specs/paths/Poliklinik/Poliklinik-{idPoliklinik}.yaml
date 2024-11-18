@@ -1,0 +1,53 @@
+get:
+  summary: Mengambil Poliklinik berdasarkan ID
+  tags: [Poliklinik]
+  parameters:
+    - in: path
+      required: true
+      name: idPoliklinik
+      schema: 
+        type: integer
+  responses:
+    '200':
+      description: Object Poliklinik terpilih
+
+patch:
+  summary: Mengubah Poliklinik berdasarkan ID
+  tags: [Poliklinik]
+  parameters:
+    - in: path
+      required: true
+      name: idPoliklinik
+      schema: 
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            nmPoliklinik:
+              type: string
+            deskripsi:
+              type: string
+          example:
+            nmPoliklinik: Poli Gigi Umum
+            deskripsi: Poli untuk penyakit gigi atau masalah gigi secara umum
+
+  responses:
+    '200':
+      description: Updated
+
+delete:
+  summary: Menghapus Poliklinik berdasarkan ID
+  tags: [Poliklinik]
+  parameters:
+    - in: path
+      required: true
+      name: idPolklinik
+      schema: 
+        type: integer
+  responses:
+    '200' :
+      description: Poliklinik berhasil dihapus

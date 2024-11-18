@@ -103,7 +103,29 @@ class SQLSrvSchema implements Schema {
     private function prepareValue(mixed $val): string {
         if(is_null($val)) return 'NULL';
         if(is_bool($val)) return ($val == true ? '1' : '0');
+
+        if (is_array($val)) {
+            // Process array for IN clause
+            $processedValues = array_map(function ($v) {
+                return $this->prepareValue($v); // Recursively prepare each value
+            }, $val);
+            return '(' . implode(', ', $processedValues) . ')';
+        }
+
         if(is_string($val)) {
+            // // Check for IN clause value (e.g., '(26, 27, 28)')
+            // if (preg_match('/^\((.*?)\)$/', $val, $matches)) {
+            //     // Extract values inside parentheses
+            //     $inValues = explode(',', $matches[1]);
+            //     // Process each value and wrap in single quotes
+            //     $processedValues = array_map(function($v) {
+            //         return "'" . trim($v) . "'";
+            //     }, $inValues);
+            //     // Return values as ('26', '27', '28')
+            //     return '(' . implode(', ', $processedValues) . ')';
+            // }
+
+            // Handle general strings
             $val = str_replace("\\", "\\\\", $val); // replace backslash View\Update => View\\Update
             $val = str_replace("'", "''", $val); // replace single quotes Qur'an => Qur''an
             $val = str_replace("\"", "\\\"", $val); // replace double quotes Qur"an => Qur\"an

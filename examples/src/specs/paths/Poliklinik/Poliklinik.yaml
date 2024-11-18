@@ -1,0 +1,44 @@
+get:
+  tags: [Poliklinik]
+  summary: Mengambil semua data Poliklinik
+  parameters:
+    - in: query
+      name: offset
+      schema:
+        type: integer
+    - in: query
+      name: limit
+      schema:
+        type: integer
+    - in: query
+      name: search
+      schema:
+        type: string
+    - in: query
+      name: sort
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Semua data poliklinik dalam format JSON
+
+post:
+  tags: [Poliklinik]
+  summary: Menambahkan poliklinik
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            nmPoliklinik:
+              type: string
+            deskripsi:
+              type: string
+          example:
+            nmPoliklinik: Poli Gigi Umum
+            deskripsi: Poli untuk penyakit gigi atau masalah gigi secara umum
+  responses:
+    '201':
+      description: Created
