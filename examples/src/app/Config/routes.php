@@ -20,6 +20,12 @@ Route::post('/produk', '\\App\\Controllers\\ProdukController@insert');
 Route::patch('/produk/{idProduk}', '\\App\\Controllers\\ProdukController@update');
 Route::delete('/produk/{idProduk}', '\\App\\Controllers\\ProdukController@delete');
 
+Route::get('/poliklinik', '\\App\\Controllers\\PoliklinikController@result');
+Route::get('/poliklinik/{idPoliklinik}', '\\App\\Controllers\\PoliklinikController@row');
+Route::post('/poliklinik', '\\App\\Controllers\\PoliklinikController@insert');
+Route::patch('/poliklinik/{idPoliklinik}', '\\App\\Controllers\\PoliklinikController@update');
+Route::delete('/poliklinik/{idPoliklinik}', '\\App\\Controllers\\PoliklinikController@delete');
+
 Route::get('/transaksi', '\\App\\Controllers\\TransaksiController@result');
 Route::get('/transaksi/{idTransaksi}', '\\App\\Controllers\\TransaksiController@row');
 Route::post('/transaksi', '\\App\\Controllers\\TransaksiController@insert');

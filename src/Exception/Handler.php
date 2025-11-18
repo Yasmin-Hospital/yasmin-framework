@@ -24,6 +24,8 @@ class Handler  {
     }
 
     public static function setDefaultHandlers() {
+        header('Content-Type: application/json');
+        
         self::set('exception/framework', function (\Yasmin\Exception $e) {
             \jsonResponse([
                 'code' => $e->getCodeString(),
