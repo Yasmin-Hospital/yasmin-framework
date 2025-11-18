@@ -1,13 +1,9 @@
 get:
-  summary: Mengambil semua data Kontak
   tags: [Kontak]
+  summary: Mengambil semua data kontak
   parameters:
     - in: query
-      name: offset
-      schema:
-        type: integer
-    - in: query
-      name: limit
+      name: idGrup
       schema:
         type: integer
     - in: query
@@ -18,20 +14,35 @@ get:
       name: sort
       schema:
         type: string
+    - in: query
+      name: offset
+      schema:
+        type: integer
+    - in: query
+      name: limit
+      schema:
+        type: integer
   responses:
     '200':
-      description: Semua object Kontak dalam database
+      description: Semua data kontak dalam format JSON
 
 post:
-  summary: Menambahkan Kontak baru
   tags: [Kontak]
+  summary: Menambahkan kontak
   requestBody:
     required: true
     content:
       application/json:
-        schema: 
+        schema:
           type: object
-          $ref: "../../schemas/Kontak.yaml"
+          properties:
+            nmKontak:
+              type: string
+            idGrup:
+              type: integer
+          example:
+            nmKontak: John Doe
+            idGrup: 1
   responses:
     '201':
-      description: Berhasil menambahkan Kontak
+      description: Created
