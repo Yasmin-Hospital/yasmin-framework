@@ -81,7 +81,7 @@ class MySQLSchema implements Schema {
         }
     }
 
-    function getSql(string $table = null): string {
+    function getSql(?string $table = null): string {
         $select = "SELECT *";
         if(strlen($this->_select) > 0) $select = "SELECT {$this->_select}";
 
@@ -104,7 +104,7 @@ class MySQLSchema implements Schema {
     }
 
 
-    public function get(string $tbl = null): Result | bool
+    public function get(?string $tbl = null): Result | bool
     {
         $sql = $this->getSql($tbl);
         return $this->query($sql);
@@ -130,7 +130,7 @@ class MySQLSchema implements Schema {
         return $val;
     }
 
-    function join(string $tbl, string $cond, string $direction = null): Schema {
+    function join(string $tbl, string $cond, ?string $direction = null): Schema {
         $str = "";
         $str .= (strlen($this->_join) > 0 ? " " : "");
         $str .= ($direction != null ? $direction." " : "");
@@ -216,12 +216,12 @@ class MySQLSchema implements Schema {
         return $this;
     }
 
-    function limit(int $limit = null): Schema {
+    function limit(?int $limit = null): Schema {
         $this->_limit = $limit;
         return $this;
     }
 
-    function offset(int $offset = null) : Schema {
+    function offset(?int $offset = null) : Schema {
         $this->_offset = $offset;
         return $this;
     }
@@ -395,7 +395,7 @@ class MySQLSchema implements Schema {
         return $this->query('RENAME TABLE '.$table.' TO '.$new_table);
     }
 
-    function renameColumn(string $table = null, string $column, string $new_Column): Schema {
+    function renameColumn(?string $table = null, string $column, string $new_Column): Schema {
         $this->_renameColumn = "RENAME COLUMN {$column} TO {$new_Column}";
         return $this;
     }

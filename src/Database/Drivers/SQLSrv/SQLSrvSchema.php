@@ -103,7 +103,29 @@ class SQLSrvSchema implements Schema {
     private function prepareValue(mixed $val): string {
         if(is_null($val)) return 'NULL';
         if(is_bool($val)) return ($val == true ? '1' : '0');
+
+        if (is_array($val)) {
+            // Process array for IN clause
+            $processedValues = array_map(function ($v) {
+                return $this->prepareValue($v); // Recursively prepare each value
+            }, $val);
+            return '(' . implode(', ', $processedValues) . ')';
+        }
+
         if(is_string($val)) {
+            // // Check for IN clause value (e.g., '(26, 27, 28)')
+            // if (preg_match('/^\((.*?)\)$/', $val, $matches)) {
+            //     // Extract values inside parentheses
+            //     $inValues = explode(',', $matches[1]);
+            //     // Process each value and wrap in single quotes
+            //     $processedValues = array_map(function($v) {
+            //         return "'" . trim($v) . "'";
+            //     }, $inValues);
+            //     // Return values as ('26', '27', '28')
+            //     return '(' . implode(', ', $processedValues) . ')';
+            // }
+
+            // Handle general strings
             $val = str_replace("\\", "\\\\", $val); // replace backslash View\Update => View\\Update
             $val = str_replace("'", "''", $val); // replace single quotes Qur'an => Qur''an
             $val = str_replace("\"", "\\\"", $val); // replace double quotes Qur"an => Qur\"an
@@ -172,9 +194,9 @@ class SQLSrvSchema implements Schema {
         return $this;
     }
 
-    function join(string $tbl, string $cond, string $direction = null): Schema {
+    function join(string $tbl, string $cond, ?string $direction = null): Schema {
         $str = "";
-        $str .= (strlen($this->_join) > 0 ? " " : "");
+        $str .= (strlen((string)$this->_join) > 0 ? " " : "");
         $str .= ($direction != null ? $direction." " : "");
         $str .= "JOIN {$tbl} ON {$cond}";
         $this->_join .= $str;
@@ -214,29 +236,29 @@ class SQLSrvSchema implements Schema {
             ->get()->row()->lastid;
     }
 
-    function getSql(string $table = null): string {
+    function getSql(?string $table = null): string {
         $select = "SELECT *";
-        if(strlen($this->_select) > 0) $select = "SELECT {$this->_select}";
+        if(strlen((string)$this->_select) > 0) $select = "SELECT {$this->_select}";
 
         $from = $table != null ? "FROM {$table}" : "";
         $where = $this->_where;
 
         $order = $this->_order;
-        if(strlen($order) > 0) {
-            if(strlen($this->_offset) > 0) $order .= " ".$this->_offset;
-            if(strlen($this->_limit) > 0) $order .= " ".$this->_limit;
+        if(strlen((string)$order) > 0) {
+            if(strlen((string)$this->_offset) > 0) $order .= " ".$this->_offset;
+            if(strlen((string)$this->_limit) > 0) $order .= " ".$this->_limit;
         }
 
         $join = $this->_join;
         $group = $this->_group;
         $query = implode(" ", array_filter([$select, $from, $join, $where, $group, $order], function ($v) {
-            return strlen($v) > 0;
+            return strlen((string)$v) > 0;
         }));
         $this->reset();
         return $query;
     }
 
-    function get(string $table = null): Result
+    function get(?string $table = null): Result
     {
         $sql = $this->getSql($table);
         return $this->query($sql);
@@ -299,7 +321,7 @@ class SQLSrvSchema implements Schema {
         $col_str = implode(", ", $columns);
 
         $where = $this->_where;
-        if(strlen($where) > 0) $where = " ".$where;
+        if(strlen((string)$where) > 0) $where = " ".$where;
 
         $sql = "UPDATE {$tbl} SET {$col_str}{$where}";
         $this->reset();
@@ -308,7 +330,7 @@ class SQLSrvSchema implements Schema {
 
     function delete(string $tbl): Result | bool {
         $where = $this->_where;
-        if(strlen($where) > 0) $where = " ".$where;
+        if(strlen((string)$where) > 0) $where = " ".$where;
 
         $sql = "DELETE FROM {$tbl}{$where}";
         $this->reset();
@@ -319,7 +341,7 @@ class SQLSrvSchema implements Schema {
         $str = "GROUP BY ";
         if(is_string($group)) $str .= $group;
         if(is_array($group)) $str .= implode(",", $group);
-        (strlen($this->_group) > 0) ? $this->_group .= $str : $this->_group = $str;
+        (strlen((string)$this->_group) > 0) ? $this->_group .= $str : $this->_group = $str;
         return $this;
     }
 
@@ -362,7 +384,7 @@ class SQLSrvSchema implements Schema {
         $addColumn = $this->_addColumn;
         $dropColumn = $this->_dropColumn;
         $dropPrimary = $this->_dropPrimary;
-        if(strlen($this->_dropPrimary > 0)) {
+        if(strlen((string)$this->_dropPrimary) > 0) {
             $primaryName = $this->getNamePrimaryKey($table)->name;
             $dropPrimary = implode(" ", [$this->_dropPrimary, $primaryName]);
         }

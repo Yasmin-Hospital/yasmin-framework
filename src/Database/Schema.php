@@ -10,8 +10,8 @@ interface Schema {
     public function disconnect(): bool;
     public function select_db(string $db): bool;
     public function query(string $sql): Result | bool;
-    public function getSql(string $tbl = null): string;
-    public function get(string $tbl = null): Result | bool;
+    public function getSql(?string $tbl = null): string;
+    public function get(?string $tbl = null): Result | bool;
     public function select(string|array $cols): self;
     public function where(string|array $where): self;
     public function order(string|array $order, ?string $direction = null): self;
