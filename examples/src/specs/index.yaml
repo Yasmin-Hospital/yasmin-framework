@@ -28,10 +28,10 @@ tags:
     description: Mengelola data Poliklinik
 
 paths:
-  /kontak:
-    $ref: './paths/Kontak/Kontak.yaml'
-  /kontak/{idKontak}:
-    $ref: './paths/Kontak/Kontak-{idKontak}.yaml'
+  # /kontak:
+  #   $ref: './paths/Kontak/Kontak.yaml'
+  # /kontak/{idKontak}:
+  #   $ref: './paths/Kontak/Kontak-{idKontak}.yaml'
 
   /grup:
     $ref: './paths/Grup/Grup.yaml'
