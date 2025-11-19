@@ -156,7 +156,7 @@ class SQLSrvSchema implements Schema {
                 }
             }
         }
-        $this->_where .= (strlen($tmp) > 0 ? ($this->_where == null ? "WHERE" : " AND")." ({$tmp})" : "");
+        $this->_where .= (strlen((string)$tmp) > 0 ? ($this->_where == null ? "WHERE" : " AND")." ({$tmp})" : "");
         return $this;
     }
 
@@ -190,7 +190,7 @@ class SQLSrvSchema implements Schema {
             }
         }
 
-        $this->_order .= (strlen($tmp) > 0) ? (strlen($this->_order) > 0 ? ', '.$tmp : 'ORDER BY '.$tmp) : "";
+        $this->_order .= (strlen((string)$tmp) > 0) ? (strlen((string)$this->_order) > 0 ? ', '.$tmp : 'ORDER BY '.$tmp) : "";
         return $this;
     }
 
@@ -370,7 +370,7 @@ class SQLSrvSchema implements Schema {
                 }
             }
         }
-        $this->_where .= (strlen($tmp) > 0 ? ($this->_where == null ? "WHERE" : " AND")." ({$tmp})" : "");
+        $this->_where .= (strlen((string)$tmp) > 0 ? ($this->_where == null ? "WHERE" : " AND")." ({$tmp})" : "");
         return $this;
     }
 

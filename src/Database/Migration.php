@@ -26,7 +26,8 @@ class Migration {
             }
         }
         usort($files, function ($a, $b) use ($sort) {
-            return $sort == 'ASC' ? basename($a) > basename($b) : basename($a) < basename($b);
+            $cmp = strcmp(basename($a), basename($b));
+            return ($sort === 'ASC') ? $cmp : -$cmp;
         });
         if($step == -1) return $files;
         return array_splice($files, 0, $step);
@@ -66,7 +67,7 @@ class Migration {
     //         ->order(['start' => 'DESC'])->get('_migration')->row();
     // }
 
-    function run(string $schema = null, string $direction = null, string $stepArgs = null, string $stepAll = null) {
+    function run(?string $schema = null, ?string $direction = null, ?string $stepArgs = null, ?string $stepAll = null) {
         $isCli = php_sapi_name() == 'cli';
 
         $args = func_get_args();
